@@ -1,0 +1,161 @@
+
+DON'T FORGET TO RUN LOCAL REGISTRY MIRROR!!!!
+
+~/rpi-kubernetes-cluster/run-docker-registry-mirror.sh
+
+
+####################################################
+#####  DEMO 1.1  Build app & Docker image
+
+## show v1-x86 code
+
+cd 00-kubia-v1-x86
+mvn clean install
+cat Dockerfile
+docker build -t luksa/kubia-java:v1 .
+
+## need to explain Docker images?
+
+docker run -it -p 8080:8080 luksa/kubia-java:v1
+
+## compare to deploying app without Docker
+
+# create another terminal
+
+curl localhost:8080
+
+# ctrl-C on Docker container
+
+## Java, run anywhere, push image, run on RPi cluster?
+
+cd ../01-kubia-v1
+cat Dockerfile
+mvn clean install
+docker build -t luksa/kubia-java-arm:v1 .
+docker push luksa/kubia-java-arm:v1
+
+####################################################
+#####  DEMO 1.2  Run Pod
+
+## I use alias for kubectl
+
+k get nodes
+cat pod.yaml
+
+k apply -f pod.yaml
+k get po
+k get po -o wide
+
+ping <podIp>
+ssh luksa@<node>.rpi
+    ping <podIp>
+    curl <podIp>:8080
+
+    sudo docker ps
+    ps aux | grep java
+    ## processes in containers actually run in the host OS, but isolated (Linux namespaces, cgroups)
+    exit
+
+k delete po kubia
+
+## show scheduling
+k apply -f pod.yaml
+k delete po kubia
+
+
+####################################################
+#####  DEMO 2.1  Labels
+
+k apply -f pod1.yaml
+k apply -f pod2.yaml
+k get po --show-labels
+
+k label po kubia1 app=kubia
+k get po --show-labels
+k get po -l app=kubia
+
+k label po kubia2 app=kubia
+
+## multiple dimensions (app, env=dev/qa/production, ...)
+
+####################################################
+#####  DEMO 2.2  Services
+
+k apply -f service.yaml
+k get svc
+
+ssh luksa@node1.rpi
+    curl <serviceIp>    # load balancing
+    exit
+
+k get svc
+curl node1.rpi:<nodeport>
+
+k delete po kubia1
+k apply -f pod1.yaml
+k label po kubia1 app=kubia
+
+####################################################
+#####  DEMO 2.3  Service discovery
+
+## show client code
+k apply -f ../02-kubia-client/client.yaml
+k logs client
+
+## why is it always hitting the same pod? keep-alive connections!
+
+k delete po <the pod that is being hit>
+
+k exec client env | sort
+k get svc
+
+k delete client
+k delete po -l app=kubia
+
+
+####################################################
+#####  DEMO 3.1  Deployments & scaling
+
+cat deployment.yaml
+k apply -f deployment.yaml
+k get deploy
+k get po
+k scale deploy kubia --replicas 3
+k get po
+k get po --show-labels
+while true; do curl node1.rpi:30300; done
+
+k scale deploy kubia --replicas 10                          (2nd terminal)
+## why did it slow down (has nothing to do with k8s)? Answer: missing warm up in apps!
+k scale deploy kubia --replicas 30
+
+k scale deploy kubia --replicas 10
+
+####################################################
+#####  DEMO 3.2  Handling hardware failures
+
+watch -n 0,5 k get po -o wide --sort-by "{.spec.nodeName}"
+watch -n 0,5 k get node                                            (2nd terminal)
+# disconnect node 4 power
+
+# disconnect rack2 network switch power cable
+## why are pods on rack2 still running?
+## if you need at-most-one guarantees, use StatefulSet
+# reconnect power cable
+## control plane (master) says those pods should no longer run
+
+while true; do curl node1.rpi:30300; done
+## what happens if we disconnect the master?
+# disconnect master while curl is running
+## why is everything still working?
+# reconnect master
+
+
+####################################################
+#####  DEMO 3.3  Rolling update
+
+while true; do curl node1.rpi:30300; done
+cd ../kubia-v2
+cat deployment.yaml
+k apply -f deployment.yaml
+

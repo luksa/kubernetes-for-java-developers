@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia
+  labels:
+    app: kubia
+spec:
+  containers:
+  - name: main
+    image: luksa/kubia-java-arm:memleak
+    resources:
+      requests:
+        memory: 20M
+      limits:
+        memory: 40M
+    ports:
+    - name: http
+      containerPort: 8080
+

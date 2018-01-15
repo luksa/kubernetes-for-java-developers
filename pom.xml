@@ -14,6 +14,15 @@
     </properties>
 
     <modules>
+        <module>blinkt-client</module>
+        <module>kubia-v1-x86</module>
         <module>kubia-v1</module>
+        <module>kubia-client</module>
+        <module>kubia-v2</module>
+        <module>kubia-memleak</module>
+        <module>kubia-broken</module>
+        <module>kubia-leader-election</module>
+        <module>kubia-fabric8</module>
+        <module>system-info</module>
     </modules>
 </project>

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia
+spec:
+  containers:
+  - name: main
+    image: luksa/kubia-java-arm:v1
+    ports:
+    - name: http
+      containerPort: 8080

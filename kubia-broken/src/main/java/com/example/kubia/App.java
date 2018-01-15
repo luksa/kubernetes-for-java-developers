@@ -9,11 +9,16 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App {
 
+    private static List<String> nullReference;
+
     public static void main(String[] args) throws Exception {
-        System.out.println("Kubia server v1 starting...");
+        System.out.println("Kubia server starting...");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new MyHandler());
@@ -25,16 +30,17 @@ public class App {
         public void handle(HttpExchange t) throws IOException {
             System.out.println("Received request from " + t.getRemoteAddress().getAddress().getHostAddress());
             Blinkt.flashLED();
-            String response = "You've hit v1 on " + InetAddress.getLocalHost().getHostName() + "\n";
+            nullReference.add("foo");
+            String response = "You've hit " + InetAddress.getLocalHost().getHostName() + "\n";
             sendResponse(t, response);
         }
     }
 
     private static void sendResponse(HttpExchange t, String response) throws IOException {
-        byte[] bytes = response.getBytes();
-        t.sendResponseHeaders(200, bytes.length);
+        byte[] responseBytes = response.getBytes();
+        t.sendResponseHeaders(200, responseBytes.length);
         try (OutputStream os = t.getResponseBody()) {
-            os.write(bytes);
+            os.write(responseBytes);
         }
     }
 

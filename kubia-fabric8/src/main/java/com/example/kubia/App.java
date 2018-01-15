@@ -13,7 +13,7 @@ import java.net.InetSocketAddress;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Kubia server v1 starting...");
+        System.out.println("Kubia server kubia-fabric8 starting...");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new MyHandler());
@@ -25,7 +25,7 @@ public class App {
         public void handle(HttpExchange t) throws IOException {
             System.out.println("Received request from " + t.getRemoteAddress().getAddress().getHostAddress());
             Blinkt.flashLED();
-            String response = "You've hit v1 on " + InetAddress.getLocalHost().getHostName() + "\n";
+            String response = "You've hit kubia-fabric8 on " + InetAddress.getLocalHost().getHostName() + "\n";
             sendResponse(t, response);
         }
     }

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubia
+  labels:
+    app: kubia
+spec:
+  selector:
+    matchLabels:
+      app: kubia
+  template:
+    metadata:
+      labels:
+        app: kubia
+    spec:
+      containers:
+      - name: main
+        image: luksa/kubia-java-arm:v1
+        imagePullPolicy: Always
+        ports:
+        - name: http
+          containerPort: 8080

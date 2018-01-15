@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client
+  labels:
+    led-color: magenta
+spec:
+  containers:
+  - name: main
+    image: luksa/kubia-client-arm:v1
+    imagePullPolicy: Always

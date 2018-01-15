@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client2
+  labels:
+    led-color: magenta
+spec:
+  containers:
+  - name: main
+    image: luksa/kubia-client-arm:v1
+    args: ["java", "-cp", "/opt/kubia/*", "-Dhttp.keepAlive=false", "com.example.kubia.Client"]
+    imagePullPolicy: Always

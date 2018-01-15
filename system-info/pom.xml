@@ -3,23 +3,15 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.example</groupId>
-  <artifactId>kubia-v1</artifactId>
+  <artifactId>system-info</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>kubia-v1</name>
+  <name>system-info</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.example</groupId>
-      <artifactId>blinkt-client</artifactId>
-      <version>1.0</version>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>

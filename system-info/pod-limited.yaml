@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: system-info-limited
+spec:
+  restartPolicy: OnFailure
+  containers:
+  - name: main
+    image: luksa/java-system-info
+    resources:
+      limits:
+        cpu: 1
+        memory: 20M
