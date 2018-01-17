@@ -17,11 +17,11 @@ spec:
     metadata:
       labels:
         app: kubia
-        led-color: cyan
+        led-color: green
     spec:
       containers:
       - name: main
-        image: luksa/kubia-java-arm:v2
+        image: luksa/kubia-java-arm:v3
         imagePullPolicy: Always
         ports:
         - name: http

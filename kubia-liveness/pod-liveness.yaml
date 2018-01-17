@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-liveness
+  labels:
+    app: kubia
+spec:
+  containers:
+  - name: main
+    image: luksa/kubia-java-arm:break-on-10th-request
+    imagePullPolicy: Always
+    livenessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      failureThreshold: 3
+      httpGet:
+        port: 8080
+        path: /
+    ports:
+    - name: http
+      containerPort: 8080

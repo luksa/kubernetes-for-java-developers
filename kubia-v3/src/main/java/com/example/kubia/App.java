@@ -13,7 +13,9 @@ import java.net.InetSocketAddress;
 public class App {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Kubia server v2 starting...");
+        System.out.println("Kubia server v3 starting... (initialization takes 5 seconds)");
+        Thread.sleep(5000);
+        System.out.println("Initialization finished.");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
         server.createContext("/", new MainHandler());
@@ -24,7 +26,7 @@ public class App {
     static class MainHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
             System.out.println("Received request from " + t.getRemoteAddress().getAddress().getHostAddress());
-            String response = "You've hit v2 on " + InetAddress.getLocalHost().getHostName() + "\n";
+            String response = "You've hit v3 on " + InetAddress.getLocalHost().getHostName() + "\n";
             sendResponse(t, response);
             Blinkt.flashLED();
         }

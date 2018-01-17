@@ -9,13 +9,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class App {
 
-    private static List<String> nullReference;
+    private static int requestCount;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Kubia server starting...");
@@ -28,19 +25,22 @@ public class App {
 
     static class MyHandler implements HttpHandler {
         public void handle(HttpExchange t) throws IOException {
-            System.out.println("Received request from " + t.getRemoteAddress().getAddress().getHostAddress());
+            System.out.println(++requestCount + ". Received request from " + t.getRemoteAddress().getAddress().getHostAddress());
             Blinkt.flashLED();
-            nullReference.add("foo");
-            String response = "You've hit " + InetAddress.getLocalHost().getHostName() + "\n";
+            if (requestCount >= 10) {
+                System.out.println("An error has occured!");
+                throw new RuntimeException();
+            }
+            String response = requestCount + ". You've hit " + InetAddress.getLocalHost().getHostName() + "\n";
             sendResponse(t, response);
         }
     }
 
     private static void sendResponse(HttpExchange t, String response) throws IOException {
-        byte[] responseBytes = response.getBytes();
-        t.sendResponseHeaders(200, responseBytes.length);
+        byte[] bytes = response.getBytes();
+        t.sendResponseHeaders(200, bytes.length);
         try (OutputStream os = t.getResponseBody()) {
-            os.write(responseBytes);
+            os.write(bytes);
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.systeminfo;
 import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 
 public class App {
 

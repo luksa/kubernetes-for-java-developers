@@ -6,4 +6,4 @@ spec:
   restartPolicy: OnFailure
   containers:
   - name: main
-    image: luksa/java-system-info
+    image: luksa/java-system-info-arm

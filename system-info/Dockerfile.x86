@@ -1,4 +1,5 @@
-FROM hypriot/rpi-java:latest
+#FROM openjdk:alpine
+FROM openjdk:9-jre-slim
 COPY target/*.jar /opt/systeminfo/
 EXPOSE 8080
 ENTRYPOINT java -cp /opt/systeminfo/* -XshowSettings:vm $JAVA_OPTIONS com.example.systeminfo.App

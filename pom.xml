@@ -15,14 +15,17 @@
 
     <modules>
         <module>blinkt-client</module>
+        <module>kubia-client</module>
         <module>kubia-v1-x86</module>
         <module>kubia-v1</module>
-        <module>kubia-client</module>
         <module>kubia-v2</module>
+        <module>kubia-v3</module>
+        <module>kubia-v4</module>
+        <module>kubia-v5-broken</module>
         <module>kubia-memleak</module>
-        <module>kubia-broken</module>
-        <module>kubia-leader-election</module>
+        <module>kubia-liveness</module>
         <module>kubia-fabric8</module>
+        <module>kubia-leader-election</module>
         <module>system-info</module>
     </modules>
 </project>

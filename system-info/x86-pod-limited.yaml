@@ -6,7 +6,7 @@ spec:
   restartPolicy: OnFailure
   containers:
   - name: main
-    image: luksa/java-system-info-arm
+    image: luksa/java-system-info
     resources:
       limits:
         cpu: 1

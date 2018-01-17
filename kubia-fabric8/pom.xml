@@ -59,7 +59,7 @@
                         <image>
                             <name>luksa/kubia-fabric8-arm</name>
                             <build>
-                                <from>hypriot/rpi-java:latest</from>
+                                <from>luksa/fabric8-rpi-java-base</from>
                                 <tags>
                                     <tag>latest</tag>
                                     <tag>${project.version}</tag>
@@ -67,17 +67,12 @@
                                 <ports>
                                     <port>8080</port>
                                 </ports>
-                                <entryPoint>
-                                    <exec>
-                                        <arg>java</arg>
-                                        <arg>-cp</arg>
-                                        <arg>/opt/kubia/*</arg>
-                                        <arg>com.example.kubia.App</arg>
-                                    </exec>
-                                </entryPoint>
+                                <env>
+                                    <JAVA_MAIN_CLASS>com.example.kubia.App</JAVA_MAIN_CLASS>
+                                </env>
                                 <assembly>
                                     <mode>dir</mode>
-                                    <targetDir>/opt/kubia</targetDir>
+                                    <targetDir>/app</targetDir>
                                     <descriptor>${basedir}/src/main/fabric8/assembly.xml</descriptor>
                                 </assembly>
                             </build>

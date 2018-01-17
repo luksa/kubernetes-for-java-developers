@@ -28,7 +28,7 @@ public class App {
                         System.out.println("I'm no longer the master.");
                         master = false;
                     });
-                e.setFlakyElectionForTesting();
+            e.setFlakyElectionForTesting();
             e.run();
         }).start();
 

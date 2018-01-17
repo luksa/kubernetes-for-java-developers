@@ -1,13 +1,14 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: kubia
+  name: kubia-no-liveness
   labels:
     app: kubia
 spec:
   containers:
   - name: main
-    image: luksa/kubia-java-arm:broken
+    image: luksa/kubia-java-arm:break-on-10th-request
+    imagePullPolicy: Always
     ports:
     - name: http
       containerPort: 8080
